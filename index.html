@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stockroom — Inventory, In Order.</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#103d3a">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="style.css?v=12" />
+<style>
+.food-finder{margin:0 0 18px;padding:14px 0 0;border-top:1px solid rgba(0,0,0,.07)}
+.food-search-wrap{display:flex;align-items:center;gap:10px;max-width:520px;border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:14px;padding:0 12px;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.food-search-wrap>span{font-size:22px;opacity:.55}
+.food-search-wrap input{width:100%;border:0;outline:0;background:transparent;padding:13px 2px;font:inherit}
+.food-search-wrap button{border:0;background:transparent;font-size:22px;cursor:pointer;opacity:.45;display:none}
+.food-filter-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.food-filter{border:1px solid rgba(0,0,0,.1);background:#fff;border-radius:999px;padding:8px 13px;cursor:pointer;font:inherit;font-size:13px;transition:.18s ease}
+.food-filter:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,.06)}
+.food-filter.active{background:#183c32;color:#fff;border-color:#183c32}
+.food-result-count{display:block;margin-top:10px;font-size:12px;opacity:.6}
+.food-row-hidden{display:none!important}
+.switch-line{text-align:center;margin:16px 0 0;font-size:8px;font-family:"DM Sans",sans-serif;color:#6d7972}
+.switch-line a{color:#ee6a4d;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(238,106,77,.45)}
+</style></head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <!-- LANDING / ABOUT -->
+  <main class="landing" id="landingPage">
+    <header class="ld-nav"><div class="brand"><div class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div><div class="brand-name">Stockroom</div><div class="brand-tag">INVENTORY, IN ORDER.</div></div></div>
+      <nav class="ld-nav-actions"><a href="#ldAbout" class="ld-link">About</a><a href="#ldFeatures" class="ld-link">Features</a><a href="#ldHow" class="ld-link">How it works</a><button type="button" class="ld-btn ld-btn-ghost" data-go="login">Sign in</button><button type="button" class="ld-btn ld-btn-solid" data-go="signup">Sign up</button></nav>
+    </header>
+
+    <section class="ld-hero">
+      <div class="ld-hero-copy">
+        <p class="ld-eyebrow">YOUR SHOP, AT A GLANCE</p>
+        <h1>Know what’s<br><span>on the shelf.</span></h1>
+        <p class="ld-lead">Stockroom is a simple inventory and sales tracker for small food shops and stalls. Your staff record what they take out and bring back, and Stockroom works out what sold, what you earned, and what’s left.</p>
+        <div class="ld-cta"><button type="button" class="ld-btn ld-btn-solid ld-btn-lg" data-go="signup">Create your shop account →</button><button type="button" class="ld-btn ld-btn-ghost ld-btn-lg" data-go="login">Sign in</button></div>
+        <p class="ld-note">Free to start · Works with Google or email · Each shop’s data stays private</p>
+      </div>
+      <div class="ld-preview" aria-hidden="true">
+        <div class="ld-preview-top"><span>TODAY</span><b>Sample view</b></div>
+        <div class="ld-stats"><div><small>SOLD</small><strong>86</strong></div><div><small>EARNINGS</small><strong>₱1,640</strong></div><div><small>LOW STOCK</small><strong>2</strong></div></div>
+        <div class="ld-rows">
+          <div><span>Palamig</span><i style="--w:72%"></i><em>72 left</em></div>
+          <div><span>Turon</span><i style="--w:45%"></i><em>45 left</em></div>
+          <div><span>Lumpia</span><i style="--w:18%"></i><em class="low">18 left</em></div>
+          <div><span>Corndogs</span><i style="--w:9%"></i><em class="low">9 left</em></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ld-section" id="ldAbout">
+      <p class="ld-eyebrow">ABOUT THE SYSTEM</p>
+      <h2>Made for the back room, not the boardroom.</h2>
+      <p class="ld-lead ld-narrow">Running a food stall usually means notebooks, guesswork, and counting leftovers at night. Stockroom replaces that with one calm place: the owner sets up the items and prices, staff submit what they took and returned, and the numbers do themselves. It works on any phone browser, and staff don’t even need an account, just a code from you.</p>
+    </section>
+
+    <section class="ld-section ld-alt" id="ldFeatures">
+      <p class="ld-eyebrow">WHAT YOU GET</p>
+      <h2>Everything you need to stay on top of stock.</h2>
+      <div class="ld-grid">
+        <article><span>▦</span><h3>Live stock count</h3><p>Stock drops automatically as items are sold, so you always know what’s left on the shelf.</p></article>
+        <article><span>₱</span><h3>Sales worked out for you</h3><p>Staff enter what they took and what came back. Stockroom computes units sold and earnings.</p></article>
+        <article><span>⌗</span><h3>Staff access codes</h3><p>Give your team your own code. Whatever they submit goes only into your shop’s records.</p></article>
+        <article><span>☷</span><h3>Daily reports, saved automatically</h3><p>Each day is archived on its own. Browse past days by date and print a report any time.</p></article>
+        <article><span>↯</span><h3>Works with weak signal</h3><p>If a phone loses connection mid-submission, it’s saved on the device and sent once it’s back.</p></article>
+        <article><span>◈</span><h3>Private by default</h3><p>Every owner has their own foods, stock, submissions and reports. Nobody else can see them.</p></article>
+      </div>
+    </section>
+
+    <section class="ld-section" id="ldHow">
+      <p class="ld-eyebrow">HOW IT WORKS</p>
+      <h2>Up and running in three steps.</h2>
+      <ol class="ld-steps">
+        <li><b>1</b><h3>Create your shop account</h3><p>Sign up with Google or your email. You get your own staff code right away.</p></li>
+        <li><b>2</b><h3>Add your items</h3><p>List your foods and drinks with prices and starting stock. Share your staff code with your team.</p></li>
+        <li><b>3</b><h3>Staff submit, you see results</h3><p>Staff log in with the code and record what they took and returned. Your dashboard updates with sales and stock.</p></li>
+      </ol>
+    </section>
+
+    <section class="ld-cta-band">
+      <h2>Ready to see what’s on your shelf?</h2>
+      <div class="ld-cta"><button type="button" class="ld-btn ld-btn-light ld-btn-lg" data-go="signup">Sign up</button><button type="button" class="ld-btn ld-btn-outline-light ld-btn-lg" data-go="login">Sign in</button></div>
+    </section>
+    <footer class="ld-footer"><span>© 2026 STOCKROOM</span><span>◈ PRIVATE BY DEFAULT</span></footer>
+  </main>
+
+  <!-- LOGIN -->
+  <main class="page hidden" id="loginPage">
+    <section class="hero-panel">
+      <header class="brand" data-go="home" style="cursor:pointer" title="Back to home"><div class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div><div class="brand-name">Stockroom</div><div class="brand-tag">INVENTORY, IN ORDER.</div></div></header>
+      <div class="hero-copy"><p class="eyebrow">YOUR SHOP, AT A GLANCE</p><h1>Know what’s<br><span>on the shelf.</span></h1><p class="description">The calm behind a well-run shop. See stock, spot gaps,<br class="desktop-break"> and keep your best sellers moving.</p></div>
+      <div class="shelf-art" aria-label="Inventory shelf illustration"><div class="shelf-post left"></div><div class="shelf-post right"></div><div class="shelf-line line-top"></div><div class="shelf-line line-mid"></div><div class="shelf-line line-bottom"></div><div class="box box-a"></div><div class="box box-b"></div><div class="box box-c"></div><div class="box box-d"></div><div class="box box-e"></div><div class="box box-f"></div><div class="box box-g"></div><div class="box box-h"></div><div class="scan">⌁</div><div class="sun">✦</div></div>
+      <div class="hero-footer"><span>BUILT FOR THE BACK ROOM</span><span class="sync"><i></i> Always in sync</span></div>
+    </section>
+    <section class="login-panel">
+      <div class="workspace">WORKSPACE · ACCESS / 01</div>
+      <div class="login-wrap"><p class="eyebrow coral">GOOD TO SEE YOU</p><h2>Back to<br>the stockroom.</h2><p class="login-sub">Owners can manage stock and earnings. Staff can submit today’s stock taken and returned.</p>
+        <form id="loginForm"><label for="email">WORK EMAIL</label><div class="input-wrap"><span class="input-icon">✉</span><input id="email" type="email" placeholder="you@yourshop.com" autocomplete="email" required></div><div class="password-label"><label for="password">PASSWORD</label><a href="#" id="forgot">Forgot password?</a></div><div class="input-wrap"><span class="input-icon">♙</span><input id="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="eye" type="button" id="togglePassword" aria-label="Show password">◉</button></div><label class="check-row"><input id="remember" type="checkbox" checked><span>Keep me signed in on this device</span></label><button class="primary-btn" type="submit">Open my workspace <span>→</span></button></form>
+        <div id="googleBlock"><div class="divider"><span>OR</span></div><div id="googleBtnLogin" style="display:flex;justify-content:center;min-height:44px"></div></div>
+        <div class="divider"><span>OR</span></div><button class="staff-btn" type="button" id="staffAccess"><span>✣</span> Use a staff access code <b>→</b></button>
+        <p class="switch-line">New to Stockroom? <a href="#" id="showSignup">Create your shop account</a></p>
+        <p class="switch-line"><a href="#" data-go="home" style="font-weight:500;border-bottom-color:transparent;color:#6d7972">← Back to home</a></p>
+      </div>
+      <div class="login-wrap hidden" id="signupWrap"><p class="eyebrow coral">NEW TO STOCKROOM</p><h2>Create your<br>account.</h2><p class="login-sub">Welcome! Fill in the details to get started. You’ll get your own staff code to share with your team.</p>
+        <div id="googleBtnSignup" style="display:flex;justify-content:center;min-height:44px"></div>
+        <div class="divider"><span>OR</span></div>
+        <form id="signupForm" novalidate><label for="suEmail">EMAIL ADDRESS</label><div class="input-wrap"><span class="input-icon">✉</span><input id="suEmail" type="email" placeholder="Enter your email address" autocomplete="email" required></div><div class="password-label"><label for="suPassword">PASSWORD</label></div><div class="input-wrap"><span class="input-icon">♙</span><input id="suPassword" type="password" placeholder="Create a password (8+ characters)" autocomplete="new-password" minlength="8" required><button class="eye" type="button" id="toggleSuPassword" aria-label="Show password">◉</button></div><button class="primary-btn" type="submit" id="signupBtn" style="margin-top:18px">Create account <span>→</span></button><p id="signupError" role="alert" style="color:#b84f3e;font-size:8px;margin:10px 0 0;text-align:center;min-height:10px"></p></form>
+        <p class="switch-line">Already have an account? <a href="#" id="showLogin">Sign in</a></p>
+        <p class="switch-line"><a href="#" data-go="home" style="font-weight:500;border-bottom-color:transparent;color:#6d7972">← Back to home</a></p>
+      </div><footer class="login-footer"><span>© 2026 STOCKROOM</span><span>◈ PRIVATE BY DEFAULT</span></footer>
+    </section>
+  </main>
+
+  <!-- OWNER DASHBOARD -->
+  <main class="dashboard hidden" id="ownerDashboard">
+    <div class="owner-shell">
+      <aside class="owner-side">
+        <div class="brand side-brand"><div class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div><div class="brand-name">Stockroom</div><div class="brand-tag" id="sideShopName">OWNER WORKSPACE</div></div></div>
+        <nav class="owner-nav" id="ownerTabs" role="tablist" aria-label="Owner sections">
+          <button type="button" class="owner-tab-btn active" data-tab="overview" role="tab" aria-selected="true"><i>▦</i><span>Dashboard</span></button>
+          <button type="button" class="owner-tab-btn" data-tab="foods" role="tab" aria-selected="false"><i>☰</i><span>Manage foods</span></button>
+          <button type="button" class="owner-tab-btn" data-tab="reports" role="tab" aria-selected="false"><i>☷</i><span>Reports</span></button>
+          <button type="button" class="owner-tab-btn" data-tab="settings" role="tab" aria-selected="false"><i>⚙</i><span>Settings</span></button>
+        </nav>
+        <div class="owner-side-foot"><div class="side-user"><span class="owner-badge">OWNER</span><small id="sideEmail"></small></div><button class="side-logout js-logout" id="logoutOwner" type="button">Log out</button></div>
+      </aside>
+
+      <div class="owner-main">
+        <div class="owner-mobilebar"><div class="brand"><div class="brand-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div><div><div class="brand-name">Stockroom</div></div></div><button class="ghost-btn js-logout" type="button">Log out</button></div>
+        <header class="owner-topbar"><p class="eyebrow">TODAY · <span id="todayDate"></span></p><h1 id="paneTitle">Your shop, at a glance.</h1><p id="paneDesc"></p></header>
+
+        <!-- DASHBOARD -->
+        <div class="owner-pane" data-pane="overview">
+          <div class="stat-grid"><article class="stat-card"><span>ESTIMATED SALES</span><strong id="totalSales">₱0</strong><small>Based on staff-reported sales</small></article><article class="stat-card"><span>ITEMS SOLD</span><strong id="itemsSold">0</strong><small>Across all items</small></article><article class="stat-card"><span>OWNER STOCK</span><strong id="stockLeft">0</strong><small>Units currently in stockroom</small></article><article class="stat-card"><span>SUBMISSIONS</span><strong id="submissionCount">0</strong><small>Staff reports today</small></article></div>
+          <div class="dashboard-grid">
+            <section class="panel"><div class="panel-heading"><div><h3>Today’s submissions</h3><p class="panel-desc">What your staff reported so far today.</p></div></div>
+              <div class="table-wrap"><table class="manage-table"><thead><tr><th>TIME</th><th>STAFF</th><th>AREA</th><th>ITEM</th><th>SOLD</th><th>SALES</th></tr></thead><tbody id="todaySubs"></tbody></table></div></section>
+            <section class="panel"><div class="panel-heading"><div><h3>Stock levels</h3><p class="panel-desc">What’s left on the shelf. Red means running low.</p></div></div><div id="stockLevels" class="stock-levels"></div></section>
+          </div>
+        </div>
+
+        <!-- MANAGE FOODS -->
+        <div class="owner-pane hidden" data-pane="foods">
+          <section class="panel manage-panel">
+            <div class="pane-toolbar">
+              <div class="food-search-wrap"><span>⌕</span><input id="foodSearch" type="search" placeholder="Search food..." autocomplete="off"><button type="button" id="clearFoodSearch" title="Clear search" aria-label="Clear search">×</button></div>
+              <button class="primary-small" id="addFoodBtn" type="button">＋ Add food</button>
+            </div>
+            <div class="table-wrap">
+              <table class="manage-table">
+                <thead><tr><th>FOOD / ITEM</th><th>PRICE</th><th>STOCK AVAILABLE</th><th>TYPE</th><th>ACTION</th></tr></thead>
+                <tbody id="manageTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- REPORTS -->
+        <div class="owner-pane hidden" data-pane="reports">
+          <section class="panel reports-panel">
+            <div class="pane-toolbar">
+              <div class="report-actions">
+                <button class="nav-arrow" id="prevReportBtn" title="Older day" aria-label="Older day">←</button>
+                <input type="date" id="reportDatePicker" class="date-picker" aria-label="Pick a date">
+                <button class="nav-arrow" id="nextReportBtn" title="Newer day" aria-label="Newer day">→</button>
+              </div>
+              <button class="secondary-btn compact" id="printPreviewBtn" type="button">Print this day</button>
+            </div>
+            <div id="reportPreview" class="report-preview"></div>
+            <div class="report-history-heading">RECENT SAVED DAYS</div>
+            <div id="reportHistory" class="report-history"></div>
+          </section>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="owner-pane hidden" data-pane="settings">
+          <div class="settings-grid">
+            <section class="panel">
+              <div class="panel-heading"><div><p class="eyebrow">SHOP</p><h3>Shop profile</h3><p class="panel-desc">Your shop name shows in the sidebar.</p></div></div>
+              <label class="set-label" for="shopNameInput">SHOP NAME</label>
+              <input class="set-input" id="shopNameInput" maxlength="60" placeholder="e.g. Aling Nena’s Snacks" autocomplete="off">
+              <button class="primary-small set-btn" id="saveShopBtn" type="button">Save</button>
+            </section>
+
+            <section class="panel" id="staffCodePanel">
+              <div class="panel-heading"><div><p class="eyebrow">STAFF ACCESS</p><h3>Your staff code</h3><p class="panel-desc">Give this code to your staff. Everything they submit goes into your account only. Making a new code stops the old one from working.</p></div></div>
+              <div class="code-row"><strong id="staffCodeValue">—</strong><div class="code-row-actions"><button class="secondary-btn compact" id="copyCodeBtn" type="button">Copy</button><button class="secondary-btn compact" id="newCodeBtn" type="button">New code</button></div></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading"><div><p class="eyebrow">ACCOUNT</p><h3>Your account</h3></div></div>
+              <dl class="acct-list"><div><dt>EMAIL</dt><dd id="acctEmail">—</dd></div><div><dt>NAME</dt><dd id="acctName">—</dd></div><div><dt>SIGN-IN</dt><dd id="acctMethod">—</dd></div></dl>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading"><div><p class="eyebrow">SECURITY</p><h3 id="pwTitle">Change password</h3><p class="panel-desc" id="pwDesc">Use at least 8 characters.</p></div></div>
+              <form id="pwForm" novalidate>
+                <div id="curPwWrap"><label class="set-label" for="curPw">CURRENT PASSWORD</label><input class="set-input" id="curPw" type="password" autocomplete="current-password"></div>
+                <label class="set-label" for="newPw">NEW PASSWORD</label><input class="set-input" id="newPw" type="password" autocomplete="new-password" placeholder="At least 8 characters">
+                <button class="primary-small set-btn" id="pwBtn" type="submit">Update password</button>
+                <p id="pwError" role="alert" class="set-error"></p>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- STAFF INVENTORY -->
+  <main class="staff-page hidden" id="staffPage">
+    <header class="dash-header"><div class="brand"><div class="brand-icon"><span></span><span></span><span></span><span></span></div><div><div class="brand-name">Stockroom</div><div class="brand-tag">STAFF INVENTORY</div></div></div><div class="dash-actions"><span class="conn-status" id="connStatus"><i></i><span>Online</span></span><button class="ghost-btn" id="logoutStaff">Exit</button></div></header>
+    <section class="staff-content">
+      <div class="staff-intro"><p class="eyebrow coral">TODAY’S STOCK RELEASE</p><h2>Take what you<br><span>need to sell.</span></h2><p>Each staff member can take the same food and sell it in a different area. Record where you are selling, how many pieces you took, then return the pieces you still have.</p><div class="flow-note"><b>TAKEN − RETURNED = SOLD</b><span>For Palamig, only cups sold are recorded because the remaining liquid cannot be measured reliably.</span></div><div class="flow-note offline-note"><b>WORKS OFFLINE</b><span>No signal? Submit anyway — it saves on this device and syncs automatically once you're back online.</span></div></div>
+      <form id="inventoryForm" class="inventory-form">
+        <div class="form-row two"><div><label for="staffName">STAFF NAME</label><input id="staffName" type="text" placeholder="e.g. Maria" required></div><div><label for="sellingArea">SELLING AREA / LOCATION</label><input id="sellingArea" type="text" placeholder="e.g. Gate 2, Canteen, Market" required></div></div>
+        <div class="form-row"><div><label for="item">FOOD / ITEM</label><select id="item" required></select></div></div>
+        <div class="item-info" id="itemInfo"></div>
+        <div id="foodQtyFields">
+          <div class="form-row two"><div><label for="takenQty">STOCK TAKEN</label><input id="takenQty" type="number" min="0" step="1" placeholder="How many did you take?" required></div><div><label for="returnedQty">STOCK RETURNED</label><input id="returnedQty" type="number" min="0" step="1" placeholder="How many did you bring back?" required></div></div>
+        </div>
+        <div id="palamigFields" class="palamig-only hidden"><label for="cupsSold">CUPS SOLD TODAY</label><input id="cupsSold" type="number" min="0" step="1" placeholder="How many cups did you sell?" /></div>
+        <div class="calc-box"><span id="calcLabel">UNITS SOLD</span><strong id="soldPreview">0</strong><span class="sales-preview">EST. SALES <b id="salesPreview">₱0</b></span></div>
+        <button class="primary-btn" type="submit">Submit today’s stock report <span>→</span></button><p class="form-note" id="formNote">For food items: stock taken must be equal to or greater than stock returned.</p>
+        <div id="pendingSyncBadge" class="pending-badge hidden"></div>
+      </form>
+
+    </section>
+  </main>
+
+  <!-- STAFF CODE MODAL -->
+  <div class="code-modal hidden" id="codeModal" aria-hidden="true"><div class="code-backdrop" id="codeBackdrop"></div><section class="code-card" role="dialog" aria-modal="true" aria-labelledby="codeTitle"><button class="modal-close" id="closeCodeModal" aria-label="Close">×</button><div class="code-icon">✣</div><p class="eyebrow coral">STAFF ACCESS</p><h3 id="codeTitle">Enter your access code.</h3><p>Use the code provided by the owner to open today’s stock release form.</p><div class="code-inputs" id="codeInputs"></div><div class="code-meta"><span id="codeCounter">0 / 9</span><button type="button" id="pasteCode">Paste</button></div><div id="codeError" class="code-error"></div><button class="primary-btn code-continue" id="continueCode" type="button" disabled>Continue to staff area <span>→</span></button><button class="text-btn" id="cancelCode" type="button">Cancel</button></section></div>
+
+  <!-- FOOD MODAL -->
+  <div class="code-modal hidden" id="foodModal" aria-hidden="true"><div class="code-backdrop" id="foodBackdrop"></div><section class="code-card food-card" role="dialog" aria-modal="true"><button class="modal-close" id="closeFoodModal" aria-label="Close">×</button><div class="code-icon">＋</div><p class="eyebrow coral">OWNER CONTROLS</p><h3 id="foodModalTitle">Add a food item.</h3><p>Add the food, selling price, and the stock currently available in the stockroom.</p><form id="foodForm"><input type="hidden" id="editFoodId"><label for="foodName">FOOD / ITEM NAME</label><input id="foodName" type="text" placeholder="e.g. Cheese Turon" required><div class="form-row two"><div><label for="foodPrice">SELLING PRICE</label><input id="foodPrice" type="number" min="0" step="0.01" placeholder="15" required></div><div><label for="foodStock">STOCK AVAILABLE</label><input id="foodStock" type="number" min="0" step="1" placeholder="100" required></div></div><label class="modal-check"><input id="isPalamig" type="checkbox"><span>This is Palamig / drink stock (staff will report cups sold only)</span></label><button class="primary-btn" type="submit" id="saveFoodBtn">Save food <span>→</span></button></form></section></div>
+
+  <script src="script.js?v=12"></script>
+<script>
+(function(){
+  // Search box for the food table (front-end only, does not touch the database)
+  const search = document.getElementById('foodSearch');
+  const clear = document.getElementById('clearFoodSearch');
+  const table = document.getElementById('manageTable');
+  if (!search || !table) return;
+
+  function applyFoodFilter(){
+    const query = search.value.trim().toLowerCase();
+    Array.from(table.querySelectorAll('tr')).forEach(row => {
+      const show = !query || row.textContent.toLowerCase().includes(query);
+      row.classList.toggle('food-row-hidden', !show);
+    });
+    clear.style.display = search.value ? 'block' : 'none';
+  }
+  search.addEventListener('input', applyFoodFilter);
+  clear.addEventListener('click', function(){ search.value=''; search.focus(); applyFoodFilter(); });
+  // script.js fills #manageTable dynamically; re-apply the search whenever rows change.
+  new MutationObserver(applyFoodFilter).observe(table, {childList:true, subtree:true});
+  applyFoodFilter();
+})();
+</script>
+</body>
+</html>
